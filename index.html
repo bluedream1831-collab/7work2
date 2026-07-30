@@ -14,7 +14,7 @@
         /* 密碼驗證層 */
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #2c3e50; display: flex; flex-direction: column;
+            background: #2c3e50; display: none; flex-direction: column;
             justify-content: center; align-items: center; z-index: 3000; color: white;
         }
         .login-box { background: white; padding: 30px; border-radius: 15px; display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
@@ -23,16 +23,15 @@
         .login-box button { padding: 15px; background: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
 
         /* 主容器 */
-        .app-container { max-width: 1000px; margin: 0 auto; padding-bottom: 50px; }
+        .app-container { max-width: 1000px; margin: 0 auto; padding-bottom: 50px; display: none; }
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         header h2 { margin: 0; font-size: 1.1rem; color: #2c3e50; }
         .btn-help { background: #f39c12; color: white; border: none; padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; }
 
         /* 操作手冊彈窗 */
-        #help-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        #help-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 4000; justify-content: center; align-items: center; padding: 20px; }
         .help-content { background: white; width: 100%; max-width: 500px; max-height: 80vh; overflow-y: auto; border-radius: 15px; padding: 25px; position: relative; }
         .help-content h3 { margin-top: 0; border-bottom: 2px solid #f1f1f1; padding-bottom: 10px; color: #e67e22; }
-        .help-content p, .help-content li { font-size: 0.95rem; line-height: 1.6; color: #555; }
         .help-close { background: #eee; border: none; width: 100%; padding: 10px; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: bold; }
 
         /* 卡片設計 */
@@ -51,10 +50,10 @@
 
         /* 按鈕區 */
         .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        button.btn-add { background: var(--secondary-color); color: white; grid-column: span 2; font-size: 1.1rem; padding: 15px; font-weight: bold; border:none; border-radius: 8px; cursor: pointer;}
-        .btn-img { background: #e74c3c; color: white; padding: 15px; border:none; border-radius: 8px; cursor: pointer; font-weight: bold;}
-        .btn-xlsx { background: #217346; color: white; padding: 15px; border:none; border-radius: 8px; cursor: pointer; font-weight: bold;}
-        .btn-reset { background: #95a5a6; color: white; grid-column: span 2; margin-top: 10px; padding: 10px; font-size: 0.9rem; border:none; border-radius: 8px; cursor: pointer;}
+        button.btn-add { background: var(--secondary-color); color: white; grid-column: span 2; font-size: 1.1rem; padding: 15px; font-weight: bold; border:none; border-radius: 8px; }
+        .btn-img { background: #e74c3c; color: white; padding: 15px; border:none; border-radius: 8px; font-weight: bold;}
+        .btn-xlsx { background: #217346; color: white; padding: 15px; border:none; border-radius: 8px; font-weight: bold;}
+        .btn-reset { background: #95a5a6; color: white; grid-column: span 2; margin-top: 10px; padding: 10px; font-size: 0.9rem; border:none; border-radius: 8px;}
 
         /* 表格預覽 */
         .preview-container { overflow-x: auto; background: #eee; padding: 10px; border-radius: 10px; margin-top: 20px; border: 1px solid #ddd; }
@@ -78,22 +77,10 @@
 <div id="help-modal">
     <div class="help-content">
         <h3>📖 操作手冊</h3>
-        <p><b>1. 登入系統：</b><br>請輸入預設密碼 <b>888</b> 進入系統。</p>
-        <p><b>2. 日期邏輯：</b><br>系統會自動計算<b>下一個工作天</b>。若手動修改日期，系統會自動偵測並更新「星期幾」。</p>
-        <p><b>3. 快速帶入商品：</b><br>下拉選單可選取常用商品（米血糕、魚板等），系統會自動帶入代碼與板規格。</p>
-        <p><b>4. 車趟計算：</b><br>預設 <b>8 板</b> 為一台車。
-            <ul>
-                <li>1-8 板：1 趟</li>
-                <li>9-16 板：2 趟</li>
-                <li>以此類推。可手動修改黃色欄位來調整趟數。</li>
-            </ul>
-        </p>
-        <p><b>5. 資料保存：</b><br>本系統會即時「自動存檔」。關閉網頁或斷網，資料都不會消失。</p>
-        <p><b>6. 匯出報表：</b><br>
-            - 📸 <b>產生截圖</b>：產出高品質圖片，方便傳 LINE。建議手機滑動下方預覽區檢查內容。<br>
-            - 📊 <b>匯出 Excel</b>：產出表格檔案供電腦建檔。
-        </p>
-        <button class="help-close" onclick="toggleHelp()">我知道了</button>
+        <p><b>1. 登入系統：</b><br>輸入密碼後，系統會記錄您的驗證狀態直到午夜，期間刷新網頁無需重新輸入。</p>
+        <p><b>2. 日期與星期：</b><br>系統自動預設下個工作天並計算星期，您手動修改日期後星期也會自動跳轉。</p>
+        <p><b>3. 車趟邏輯：</b><br>以 8 板為基準自動計算，您可隨時手動修改黃色趟數欄位。</p>
+        <button class="help-close" onclick="toggleHelp()">關閉</button>
     </div>
 </div>
 
@@ -105,7 +92,7 @@
     </div>
 </div>
 
-<div id="app-content" class="app-container" style="display:none">
+<div id="app-content" class="app-container">
     <header>
         <h2>外倉運回預計表單</h2>
         <button class="btn-help" onclick="toggleHelp()">📖 使用說明</button>
@@ -127,7 +114,7 @@
                 <input type="text" id="in-plate" value="KLF-0535" oninput="saveData()">
             </div>
             <div class="input-group">
-                <label>趟數 (可手動修改)</label>
+                <label>趟數 (手改)</label>
                 <input type="number" id="manual-runs" class="highlight-input" value="1" oninput="manualUpdateRuns()">
             </div>
         </div>
@@ -136,9 +123,8 @@
     <div class="card">
         <span class="card-title">2. 商品登打</span>
         <div class="input-group" style="margin-bottom:15px">
-            <label>快速選擇預設商品</label>
             <select id="p-preset" onchange="applyPreset()">
-                <option value="">-- 手動輸入品項 --</option>
+                <option value="">-- 快速選擇商品 --</option>
                 <option value="0006|冰戀雪捲牛奶|63">0006 - 冰戀雪捲牛奶 (63/板)</option>
                 <option value="0011|統一香草杯裝110g|135">0011 - 統一香草杯裝110g (135/板)</option>
                 <option value="160060|甜玉米|30">160060 - 甜玉米 (30/板)</option>
@@ -151,39 +137,29 @@
             <div class="input-group"><label>品名</label><input type="text" id="p-name"></div>
         </div>
         <div class="input-row" style="margin-top:10px">
-            <div class="input-group"><label>板箱數</label><input type="number" id="p-per"></div>
+            <div class="input-group"><label>板箱</label><input type="number" id="p-per"></div>
             <div class="input-group"><label>箱數</label><input type="number" id="p-qty" value="0"></div>
             <div class="input-group"><label>板數</label><input type="number" id="p-plt" value="0"></div>
         </div>
-        <div class="input-group" style="margin-top:10px"><label>效期 / 備註</label><textarea id="p-exp" rows="2" placeholder="拉回效期 2027/12/06"></textarea></div>
-        <div class="actions" style="margin-top:15px"><button class="btn-add" onclick="addItem()">+ 加入目前清單</button></div>
+        <div class="input-group" style="margin-top:10px"><textarea id="p-exp" rows="2" placeholder="備註/效期"></textarea></div>
+        <div class="actions" style="margin-top:15px"><button class="btn-add" onclick="addItem()">+ 加入清單</button></div>
     </div>
 
     <div class="card" id="manage-section" style="display:none">
-        <span class="card-title">3. 項目管理 (可刪除錯誤項)</span>
+        <span class="card-title">3. 項目管理</span>
         <div id="manage-items-container"></div>
     </div>
 
     <div class="actions">
-        <button class="btn-img" onclick="downloadImage()">📸 產生圖片截圖</button>
-        <button class="btn-xlsx" onclick="downloadExcel()">📊 匯出 Excel</button>
-        <button class="btn-reset" onclick="clearAllData()">⚠️ 一鍵清空所有資料</button>
+        <button class="btn-img" onclick="downloadImage()">📸 截圖</button>
+        <button class="btn-xlsx" onclick="downloadExcel()">📊 Excel</button>
+        <button class="btn-reset" onclick="clearAllData()">⚠️ 清空</button>
     </div>
 
     <div class="preview-container">
         <div id="capture-area">
             <table class="main-table">
-                <thead>
-                    <tr>
-                        <th style="width: 110px;">取貨日</th>
-                        <th style="width: 90px;">商品代號</th>
-                        <th>隆興載回貨品名稱</th>
-                        <th style="width: 70px;">板箱數</th>
-                        <th style="width: 80px;">數量</th>
-                        <th style="width: 70px;">板數</th>
-                        <th>備註 / 效期</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>取貨日</th><th>商品代號</th><th>隆興載回貨品名稱</th><th>板箱數</th><th>數量</th><th>板數</th><th>備註 / 效期</th></tr></thead>
                 <tbody id="table-body"></tbody>
             </table>
             <div class="footer-info">
@@ -204,14 +180,41 @@
     let items = [];
     let isManualRuns = false;
 
-    function toggleHelp() {
-        const modal = document.getElementById('help-modal');
-        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    // --- 核心功能：當日自動登入邏輯 ---
+    function initAuth() {
+        const today = new Date().toLocaleDateString();
+        const lastAuthDate = localStorage.getItem('last_auth_date');
+        
+        if (lastAuthDate === today) {
+            // 今天已經登入過
+            showApp();
+        } else {
+            // 沒登入過或已隔日，顯示登入層
+            document.getElementById('login-overlay').style.display = 'flex';
+        }
     }
 
+    function checkPassword() {
+        const pw = document.getElementById('pw-input').value;
+        if(pw === '888') {
+            const today = new Date().toLocaleDateString();
+            localStorage.setItem('last_auth_date', today);
+            showApp();
+        } else {
+            alert('密碼錯誤！');
+            document.getElementById('pw-input').value = '';
+        }
+    }
+
+    function showApp() {
+        document.getElementById('login-overlay').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+        loadData();
+    }
+
+    // --- 日期與星期邏輯 ---
     function getWeekName(dateObj) {
-        const weekDayNames = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-        return weekDayNames[dateObj.getDay()];
+        return ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"][dateObj.getDay()];
     }
 
     function handleDateChange() {
@@ -227,22 +230,13 @@
         do {
             date.setDate(date.getDate() + 1);
             let dateStr = `${date.getFullYear()}/${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getDate().toString().padStart(2,'0')}`;
-            var isWeekend = (date.getDay() === 0 || date.getDay() === 6);
-            var isHoliday = holidays.includes(dateStr);
-        } while (isWeekend || isHoliday);
+        } while (date.getDay() === 0 || date.getDay() === 6 || holidays.includes(`${date.getFullYear()}/${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getDate().toString().padStart(2,'0')}`));
         return { dateStr: `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`, dayName: getWeekName(date) };
     }
 
-    function checkPassword() {
-        if(document.getElementById('pw-input').value === '888') {
-            document.getElementById('login-overlay').style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
-            loadData();
-        } else { alert('密碼錯誤！'); }
-    }
-
+    // --- 資料管理 ---
     function loadData() {
-        const saved = localStorage.getItem('warehouse_data_v5');
+        const saved = localStorage.getItem('warehouse_data_v6');
         if(saved) {
             const data = JSON.parse(saved);
             document.getElementById('in-date').value = data.date;
@@ -259,6 +253,18 @@
         renderAll();
     }
 
+    function saveData() {
+        localStorage.setItem('warehouse_data_v6', JSON.stringify({
+            date: document.getElementById('in-date').value,
+            day: document.getElementById('in-day').value,
+            plate: document.getElementById('in-plate').value,
+            runs: document.getElementById('manual-runs').value,
+            items: items,
+            isManual: isManualRuns
+        }));
+        renderAll();
+    }
+
     function addItem() {
         const item = {
             id: Date.now(),
@@ -272,9 +278,8 @@
         if(!item.name) return alert("請輸入商品名稱");
         items.push(item);
         if(!isManualRuns) document.getElementById('manual-runs').value = Math.ceil(items.reduce((s,i)=>s+i.plt,0) / 8) || 1;
-        renderAll(); saveData();
-        document.getElementById('p-qty').value = 0; document.getElementById('p-plt').value = 0;
-        document.getElementById('p-exp').value = "";
+        saveData();
+        document.getElementById('p-qty').value = 0; document.getElementById('p-plt').value = 0; document.getElementById('p-exp').value = "";
     }
 
     function renderAll() {
@@ -284,19 +289,16 @@
         let totalQty = 0, totalPlt = 0;
         document.getElementById('manage-section').style.display = items.length > 0 ? 'block' : 'none';
 
-        const dateVal = document.getElementById('in-date').value;
-        const dayVal = document.getElementById('in-day').value;
-
         for(let i=0; i<8; i++) {
             const item = items[i] || {};
             const row = document.createElement('tr');
-            let dateCellContent = (i === 0) ? dateVal : (i === 1 ? dayVal : '');
-            let dateCellClass = (i === 1) ? 'bg-yellow' : '';
-            row.innerHTML = `<td class="${dateCellClass}">${dateCellContent}</td><td>${item.code || ''}</td><td class="product-name">${item.name || ''}</td><td>${item.per || ''}</td><td>${item.qty ? item.qty + '箱' : ''}</td><td>${item.plt ? item.plt + '板' : ''}</td><td class="expiry-cell">${item.exp || ''}</td>`;
+            let dateCell = (i === 0) ? document.getElementById('in-date').value : (i === 1 ? document.getElementById('in-day').value : '');
+            let dateClass = (i === 1) ? 'bg-yellow' : '';
+            row.innerHTML = `<td class="${dateClass}">${dateCell}</td><td>${item.code || ''}</td><td class="product-name">${item.name || ''}</td><td>${item.per || ''}</td><td>${item.qty ? item.qty + '箱' : ''}</td><td>${item.plt ? item.plt + '板' : ''}</td><td class="expiry-cell">${item.exp || ''}</td>`;
             tbody.appendChild(row);
             if(item.id) {
                 totalQty += item.qty; totalPlt += item.plt;
-                manageContainer.innerHTML += `<div class="manage-item"><div><b>${item.name}</b><br><small>${item.qty}箱 / ${item.plt}板</small></div><button class="btn-del" onclick="deleteItem(${item.id})">刪除</button></div>`;
+                manageContainer.innerHTML += `<div class="manage-item"><div><b>${item.name}</b><br><small>${item.qty}箱/${item.plt}板</small></div><button class="btn-del" onclick="deleteItem(${item.id})">刪除</button></div>`;
             }
         }
         document.getElementById('display-plate').innerText = document.getElementById('in-plate').value;
@@ -308,20 +310,13 @@
     function deleteItem(id) {
         items = items.filter(i => i.id !== id);
         if(!isManualRuns) document.getElementById('manual-runs').value = Math.ceil(items.reduce((s,i)=>s+i.plt,0) / 8) || 1;
-        renderAll(); saveData();
+        saveData();
     }
 
     function manualUpdateRuns() { isManualRuns = true; renderAll(); saveData(); }
-    function saveData() {
-        localStorage.setItem('warehouse_data_v5', JSON.stringify({
-            date: document.getElementById('in-date').value,
-            day: document.getElementById('in-day').value,
-            plate: document.getElementById('in-plate').value,
-            runs: document.getElementById('manual-runs').value,
-            items: items,
-            isManual: isManualRuns
-        }));
-        renderAll();
+    function toggleHelp() {
+        const modal = document.getElementById('help-modal');
+        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
     }
 
     function applyPreset() {
@@ -329,18 +324,13 @@
         if (!select.value) return;
         const [code, name, per] = select.value.split('|');
         document.getElementById('p-code').value = code; document.getElementById('p-name').value = name; document.getElementById('p-per').value = per;
-        document.getElementById('p-qty').focus();
     }
 
     function clearAllData() {
         if(confirm("確定要清除所有資料嗎？")) {
-            localStorage.removeItem('warehouse_data_v5');
+            localStorage.removeItem('warehouse_data_v6');
             items = []; isManualRuns = false;
-            const nextDay = getNextWorkingDay();
-            document.getElementById('in-date').value = nextDay.dateStr;
-            document.getElementById('in-day').value = nextDay.dayName;
-            document.getElementById('manual-runs').value = 1;
-            renderAll();
+            loadData();
         }
     }
 
@@ -353,14 +343,17 @@
     }
 
     function downloadExcel() {
-        const excelData = [["取貨日", "商品代號", "品名", "板箱數", "箱數", "板數", "備註"]];
+        const excelData = [["取貨日", "商品代號", "品名", "板箱", "箱數", "板數", "備註"]];
         items.forEach((item, index) => {
             let dateCol = (index === 0) ? document.getElementById('in-date').value : (index === 1 ? document.getElementById('in-day').value : "");
             excelData.push([dateCol, item.code, item.name, item.per, item.qty, item.plt, item.exp]);
         });
         const ws = XLSX.utils.aoa_to_sheet(excelData); const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "清單"); XLSX.writeFile(wb, `外倉報表.xlsx`);
+        XLSX.utils.book_append_sheet(wb, ws, "清單"); XLSX.writeFile(wb, `報表.xlsx`);
     }
+
+    // 初始化啟動
+    window.onload = initAuth;
 </script>
 
 </body>
