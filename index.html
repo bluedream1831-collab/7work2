@@ -3,42 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>外倉商品預計運回表單 v12</title>
-    <!-- 使用最高相容性的套件連結 -->
+    <title>外倉商品預計運回表單 v14</title>
+    <!-- 引入截圖與Excel套件 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
-    
     <style>
         :root { --border-color: #333; --primary-color: #3498db; --secondary-color: #2ecc71; --accent-color: #e67e22; }
         body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f0f3f5; margin: 0; padding: 10px; color: #333; -webkit-tap-highlight-color: transparent; }
-        
         #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #2c3e50; display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 3000; color: white; }
-        .login-box { background: white; padding: 30px; border-radius: 15px; display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .login-box h2 { color: #333; margin: 0; text-align: center; }
-        .login-box input { padding: 15px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 1.2rem; }
-        .login-box button { padding: 15px; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-
+        .login-box { background: white; padding: 30px; border-radius: 15px; width: 85%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .login-box h2 { color: #333; text-align: center; margin-top: 0; }
+        .login-box input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 1.2rem; box-sizing: border-box; }
+        .login-box button { width: 100%; margin-top: 15px; padding: 15px; background: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .app-container { max-width: 1000px; margin: 0 auto; padding-bottom: 50px; display: none; }
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        
         .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
-        .card-title { font-weight: bold; margin-bottom: 12px; display: block; border-left: 5px solid var(--primary-color); padding-left: 10px; color: #444; }
-
+        .card-title { font-weight: bold; margin-bottom: 12px; display: block; border-left: 5px solid var(--primary-color); padding-left: 10px; }
         .input-row { display: flex; flex-wrap: wrap; gap: 10px; }
         .input-group { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 5px; }
         input, select, textarea { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background: #fff; }
         .highlight-input { background-color: #fff9db !important; border: 1px solid #fab005; font-weight: bold; }
-
         .manage-item { display: flex; justify-content: space-between; align-items: center; background: #fdfdfd; padding: 10px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; }
         .btn-del { background: #ff4d4f; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-
         .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .btn-add { background: var(--secondary-color); color: white; grid-column: span 2; font-size: 1.1rem; padding: 16px; font-weight: bold; border:none; border-radius: 10px; cursor: pointer;}
         .btn-img { background: #e74c3c; color: white; padding: 15px; border:none; border-radius: 10px; font-weight: bold; cursor: pointer;}
         .btn-xlsx { background: #217346; color: white; padding: 15px; border:none; border-radius: 10px; font-weight: bold; cursor: pointer;}
         .btn-reset { background: #95a5a6; color: white; grid-column: span 2; margin-top: 10px; padding: 12px; border:none; border-radius: 10px; cursor: pointer;}
-
-        /* 表格預覽區 */
         .preview-container { overflow-x: auto; background: #ddd; padding: 10px; border-radius: 12px; margin-top: 20px; }
         #capture-area { width: 1000px; background: white; padding: 40px; margin: 0 auto; }
         .main-table { width: 100%; border-collapse: collapse; border: 2px solid var(--border-color); font-size: 18px; }
@@ -46,8 +37,6 @@
         .main-table th { background-color: #f2f2f2; font-weight: bold; }
         .product-name { text-align: left; padding-left: 15px !important; width: 280px; }
         .bg-yellow { background-color: #ffff00 !important; }
-
-        /* 頁尾結構 */
         .footer-info { display: flex; border: 2px solid var(--border-color); border-top: none; }
         .footer-left { flex: 5; border-right: 1px solid var(--border-color); padding: 15px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold; letter-spacing: 2px; }
         .footer-right { flex: 2; }
@@ -59,7 +48,7 @@
 
 <div id="login-overlay">
     <div class="login-box">
-        <h2>外倉預計運回表單</h2>
+        <h2>外倉系統 v14</h2>
         <input type="password" id="pw-input" placeholder="密碼 888" onkeyup="if(event.keyCode==13) checkPassword()">
         <button onclick="checkPassword()">登入系統</button>
     </div>
@@ -67,8 +56,8 @@
 
 <div id="app-content" class="app-container">
     <header>
-        <h2>運回預計表單 v12</h2>
-        <button style="background:#e67e22; color:white; border:none; border-radius:20px; padding:5px 15px; font-weight:bold; cursor:pointer;" onclick="alert('操作說明：\n1. 填寫基本資料\n2. 從下拉選單選擇品項並填入箱數\n3. 點擊「加入報表」\n4. 點擊按鈕產生圖片或 Excel')">💡 說明</button>
+        <h2 style="font-size: 1.1rem;">預計運回表單</h2>
+        <button style="background:#e67e22; color:white; border:none; border-radius:20px; padding:5px 15px; font-weight:bold; cursor:pointer;" onclick="alert('💡 提示：\n檔名會自動帶入您填寫的「取貨日期」。')">說明</button>
     </header>
 
     <div class="card">
@@ -76,8 +65,8 @@
         <div class="input-row">
             <div class="input-group"><label>取貨日期</label><input type="text" id="in-date" oninput="handleDateChange()"></div>
             <div class="input-group"><label>星期</label><input type="text" id="in-day" readonly style="background:#eee"></div>
-            <div class="input-group"><label>載運車牌</label><input type="text" id="in-plate" value="KLF-0535" oninput="saveData()"></div>
-            <div class="input-group"><label>趟數 (可手改)</label><input type="number" id="manual-runs" class="highlight-input" value="1" oninput="manualUpdateRuns()"></div>
+            <div class="input-group"><label>車牌</label><input type="text" id="in-plate" value="KLF-0535" oninput="saveData()"></div>
+            <div class="input-group"><label>最終趟數</label><input type="number" id="manual-runs" class="highlight-input" value="1" oninput="manualUpdateRuns()"></div>
         </div>
     </div>
 
@@ -85,40 +74,39 @@
         <span class="card-title">2. 商品登打</span>
         <select id="p-preset" onchange="applyPreset()" style="width:100%; margin-bottom:10px;">
             <option value="">-- 快速品項選擇 --</option>
-            <option value="|(新)手工高麗菜捲|28">★ (新)手工高麗菜捲 (規格 28)</option>
-            <option value="|黑糖珍珠|40">★ 黑糖珍珠 (規格 40)</option>
-            <option value="|ICW WALKER冰塊|40">★ ICW WALKER冰塊 (規格 40)</option>
-            <option value="|刨走族芒果風味冰沙|90">★ 刨走族芒果風味冰沙 (規格 90)</option>
-            <option value="|刨走族烏梅風味冰沙|90">★ 刨走族烏梅風味冰沙 (規格 90)</option>
-            <option value="|統一冰淇淋-香草風味110g|0">★ 統一冰淇淋-110g (補規格)</option>
-            <option value="|統一香草杯 80g|0">★ 統一香草杯 80g (補規格)</option>
+            <option value="|(新)手工高麗菜捲|28">★ (新)手工高麗菜捲 (28)</option>
+            <option value="|黑糖珍珠|40">★ 黑糖珍珠 (40)</option>
+            <option value="|ICW WALKER冰塊|40">★ ICW WALKER冰塊 (40)</option>
+            <option value="|刨走族芒果風味冰沙|90">★ 刨走族芒果風味冰沙 (90)</option>
+            <option value="|刨走族烏梅風味冰沙|90">★ 刨走族烏梅風味冰沙 (90)</option>
+            <option value="|統一冰淇淋-香草風味110g|0">★ 統一冰淇淋-110g</option>
+            <option value="|統一香草杯 80g|0">★ 統一香草杯 80g</option>
             <option value="0006|冰戀雪捲牛奶|63">0006 - 冰戀雪捲牛奶 (63)</option>
             <option value="160067|米血糕|28">160067 - 米血糕 (28)</option>
             <option value="160066|黃金魚板|28">160066 - 黃金魚板 (28)</option>
-            <option value="160060|甜玉米|30">160060 - 甜玉米 (30)</option>
         </select>
         <div class="input-row">
             <input type="text" id="p-code" placeholder="代碼" style="width:80px">
             <input type="text" id="p-name" placeholder="品名" style="flex:1">
         </div>
         <div class="input-row" style="margin-top:10px">
-            <input type="number" id="p-per" placeholder="板規格" style="flex:1">
+            <input type="number" id="p-per" placeholder="規格" style="flex:1">
             <input type="number" id="p-qty" placeholder="箱數" style="flex:1">
             <input type="number" id="p-plt" placeholder="板數" style="flex:1">
         </div>
-        <textarea id="p-exp" rows="2" placeholder="備註 / 效期內容" style="width:100%; margin-top:10px;"></textarea>
-        <button class="btn-add" onclick="addItem()" style="margin-top:10px;">+ 加入報表清單</button>
+        <textarea id="p-exp" rows="2" placeholder="效期備註" style="width:100%; margin-top:10px;"></textarea>
+        <button class="btn-add" onclick="addItem()">+ 加入清單</button>
     </div>
 
     <div class="card" id="manage-section" style="display:none">
-        <span class="card-title">3. 項目管理 (點擊刪除錯誤項)</span>
+        <span class="card-title">項目管理</span>
         <div id="manage-items-container"></div>
     </div>
 
     <div class="actions">
         <button class="btn-img" onclick="downloadImage()">📸 產生圖片</button>
         <button class="btn-xlsx" onclick="downloadExcel()">📊 匯出 Excel</button>
-        <button class="btn-reset" onclick="clearAllData()">⚠️ 一鍵清空</button>
+        <button class="btn-reset" onclick="clearAllData()">⚠️ 清空資料</button>
     </div>
 
     <div class="preview-container">
@@ -131,7 +119,6 @@
                 <div class="footer-left" id="display-plate">-</div>
                 <div class="footer-right">
                     <table>
-                        <!-- 校正點：車趟改為板數 -->
                         <tr><td style="width: 75px; background: #f9f9f9;">板數</td><td id="display-pallets">0板</td></tr>
                         <tr><td style="background: #f9f9f9;">趟數</td><td id="display-runs" style="color:#d35400; font-weight:bold;">1趟</td></tr>
                         <tr><td style="background: #f9f9f9;">合計</td><td id="display-total" style="font-weight:bold;">0箱</td></tr>
@@ -146,19 +133,15 @@
     let items = [];
     let isManualRuns = false;
 
-    // 啟動檢測
     window.onload = function() {
         const todayStr = new Date().toISOString().split('T')[0];
-        if (localStorage.getItem('auth_date_v12') === todayStr) {
-            showMain();
-        } else {
-            document.getElementById('login-overlay').style.display = 'flex';
-        }
+        if (localStorage.getItem('auth_date_v14') === todayStr) showMain();
+        else document.getElementById('login-overlay').style.display = 'flex';
     };
 
     function checkPassword() {
         if (document.getElementById('pw-input').value === '888') {
-            localStorage.setItem('auth_date_v12', new Date().toISOString().split('T')[0]);
+            localStorage.setItem('auth_date_v14', new Date().toISOString().split('T')[0]);
             showMain();
         } else { alert('密碼錯誤'); }
     }
@@ -170,7 +153,8 @@
     }
 
     function handleDateChange() {
-        const d = new Date(document.getElementById('in-date').value);
+        const dStr = document.getElementById('in-date').value;
+        const d = new Date(dStr);
         if(!isNaN(d.getTime())) {
             const week = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
             document.getElementById('in-day').value = week[d.getDay()];
@@ -189,22 +173,11 @@
     }
 
     function addItem() {
-        const item = {
-            id: Date.now(),
-            code: document.getElementById('p-code').value,
-            name: document.getElementById('p-name').value,
-            per: document.getElementById('p-per').value,
-            qty: parseInt(document.getElementById('p-qty').value) || 0,
-            plt: parseInt(document.getElementById('p-plt').value) || 0,
-            exp: document.getElementById('p-exp').value
-        };
+        const item = { id: Date.now(), code: document.getElementById('p-code').value, name: document.getElementById('p-name').value, per: document.getElementById('p-per').value, qty: parseInt(document.getElementById('p-qty').value) || 0, plt: parseInt(document.getElementById('p-plt').value) || 0, exp: document.getElementById('p-exp').value };
         if(!item.name) return alert("請輸入商品名稱");
         items.push(item);
-        if(!isManualRuns) {
-            document.getElementById('manual-runs').value = Math.ceil(items.reduce((s,i)=>s+i.plt,0) / 8) || 1;
-        }
+        if(!isManualRuns) document.getElementById('manual-runs').value = Math.ceil(items.reduce((s,i)=>s+i.plt,0) / 8) || 1;
         saveData();
-        // 清空箱數與板數方便下一筆輸入
         document.getElementById('p-qty').value = ""; document.getElementById('p-plt').value = "";
     }
 
@@ -214,10 +187,8 @@
         tbody.innerHTML = ''; manage.innerHTML = '';
         let tQty = 0, tPlt = 0;
         document.getElementById('manage-section').style.display = items.length > 0 ? 'block' : 'none';
-
         const d = document.getElementById('in-date').value;
         const w = document.getElementById('in-day').value;
-
         for(let i=0; i<8; i++) {
             const it = items[i] || {};
             const row = document.createElement('tr');
@@ -242,21 +213,10 @@
     }
 
     function manualUpdateRuns() { isManualRuns = true; renderAll(); saveData(); }
-    
-    function saveData() {
-        localStorage.setItem('warehouse_data_v12', JSON.stringify({
-            date: document.getElementById('in-date').value,
-            day: document.getElementById('in-day').value,
-            plate: document.getElementById('in-plate').value,
-            runs: document.getElementById('manual-runs').value,
-            items: items,
-            isManual: isManualRuns
-        }));
-        renderAll();
-    }
+    function saveData() { localStorage.setItem('warehouse_data_v14', JSON.stringify({ date: document.getElementById('in-date').value, day: document.getElementById('in-day').value, plate: document.getElementById('in-plate').value, runs: document.getElementById('manual-runs').value, items: items, isManual: isManualRuns })); renderAll(); }
     
     function loadData() {
-        const saved = localStorage.getItem('warehouse_data_v12');
+        const saved = localStorage.getItem('warehouse_data_v14');
         if(saved) {
             const data = JSON.parse(saved);
             document.getElementById('in-date').value = data.date;
@@ -274,32 +234,31 @@
         renderAll();
     }
 
-    function clearAllData() { if(confirm("確定清空嗎？")) { localStorage.removeItem('warehouse_data_v12'); items = []; isManualRuns = false; loadData(); } }
+    function clearAllData() { if(confirm("確定清空嗎？")) { localStorage.removeItem('warehouse_data_v14'); items = []; isManualRuns = false; loadData(); } }
     
+    // --- 優化版：抓取取貨日期作為檔名 ---
     function downloadImage() {
+        const plate = document.getElementById('in-plate').value;
+        const pickupDate = document.getElementById('in-date').value.replace(/\//g, '-');
         const target = document.getElementById('capture-area');
         html2canvas(target, { scale: 2 }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `運回報表_${new Date().getTime()}.png`;
+            link.download = `運回清單_${plate}_${pickupDate}.png`;
             link.href = canvas.toDataURL(); link.click();
         });
     }
 
     function downloadExcel() {
         const dVal = document.getElementById('in-date').value;
+        const pickupDateFile = dVal.replace(/\//g, '-');
         const wVal = document.getElementById('in-day').value;
         const plate = document.getElementById('in-plate').value;
         
         const data = [["取貨日", "商品代號", "隆興載回貨品名稱", "板箱數", "數量", "板數", "備註 / 效期"]];
         for(let i=0; i<8; i++) {
             const it = items[i] || {};
-            data.push([
-                (i===0)?dVal : (i===1?wVal:""),
-                it.code||"", it.name||"", it.per||"",
-                it.qty?it.qty+"箱":"", it.plt?it.plt+"板":"", it.exp||""
-            ]);
+            data.push([(i===0)?dVal : (i===1?wVal:""), it.code||"", it.name||"", it.per||"", it.qty?it.qty+"箱":"", it.plt?it.plt+"板":"", it.exp||""]);
         }
-        // 校正點：車趟改為板數
         data.push([plate, "", "", "", "", "板數", document.getElementById('display-pallets').innerText]);
         data.push(["", "", "", "", "", "趟數", document.getElementById('display-runs').innerText]);
         data.push(["", "", "", "", "", "合計", document.getElementById('display-total').innerText]);
@@ -307,26 +266,10 @@
         const ws = XLSX.utils.aoa_to_sheet(data);
         ws['!merges'] = [{ s: { r: 9, c: 0 }, e: { r: 11, c: 4 } }];
         ws['!cols'] = [{ wch: 12 }, { wch: 10 }, { wch: 25 }, { wch: 8 }, { wch: 10 }, { wch: 10 }, { wch: 20 }];
-
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-        function s2ab(s) {
-            const buf = new ArrayBuffer(s.length);
-            const view = new Uint8Array(buf);
-            for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-            return buf;
-        }
-        const blob = new Blob([s2ab(wbout)], { type: 'application/octet-stream' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `運回清單_${plate}.xlsx`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+        
+        XLSX.writeFile(wb, `運回報表_${plate}_${pickupDateFile}.xlsx`);
     }
 </script>
 </body>
